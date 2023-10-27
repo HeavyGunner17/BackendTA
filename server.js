@@ -22,8 +22,7 @@ const postSchema = mongoose.Schema({
     nombre: String,
     estado: String,
     preguntas: [],
-    respuestas: [],
-    categoria: [],
+    categoria: String,
 });
 
 const userSchema = mongoose.Schema({
@@ -46,7 +45,6 @@ app.post('/adm', (req, res) => {
         nombre: req.body.nombre,
         estado: req.body.estado,
         preguntas: req.body.preguntas,
-        respuestas: req.body.respuestas,
         categoria: req.body.categoria
     })
         .then((doc) => console.log(doc))
@@ -89,7 +87,6 @@ app.put("/update/:id", (req, res) => {
             nombre: req.body.nombre,
             estado: req.body.estado,
             preguntas: req.body.preguntas,
-            respuestas: req.body.respuestas,
             categoria: req.body.categoria
         })
         .then((doc) => console.log(doc))
