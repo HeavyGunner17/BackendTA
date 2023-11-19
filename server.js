@@ -18,10 +18,7 @@ app.use(express.urlencoded({
 }));
 
 
-mongoose.connect("mongodb://localhost:27017/truthDB").catch((err => console.log(err)));
-
-
-
+mongoose.connect("mongodb+srv://HeavyGunner17:41WidJ7exIU4LyEI@cluster0.wkzcmtc.mongodb.net/?retryWrites=true&w=majority").catch((err => console.log(err)));
 
 
 const postSchema = mongoose.Schema({
@@ -44,6 +41,7 @@ const Post = mongoose.model("Post", postSchema);
 
 userSchema.methods.generateAuthToken= function() {
     const token = jwt.sign({_id:this._id}, process.env.JWSPRIVATEKEY,{ expiresIn: "7d"})
+    console.log(token)
     return token
 };
 
@@ -87,8 +85,9 @@ app.post('/users', (req, res) => {
 });
 
 
-app.get("/users", (req, res) => {
-    User.find().then(items => res.json(items))
+app.get("/users/:email", (req, res) => {
+    console.log(req.params)
+    User.findOne({ email: req.params.email }).then(items => res.json(items))
         .catch((err) => console.log(err))
 });
 
