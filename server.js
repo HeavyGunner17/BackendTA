@@ -59,7 +59,7 @@ const userSchema = mongoose.Schema({
         required: true
     },
     token:{
-        
+
     }
 });
 
@@ -149,7 +149,7 @@ let verificaToken = (req, res, next) => {
             .catch((err) => console.log(err));
     });
 
-    app.post('/users', (req, res) => {
+    app.post('/users', verificaToken, (req, res) => {
         User.create({
             nombre: req.body.nombre,
             username: req.body.username,
@@ -163,7 +163,7 @@ let verificaToken = (req, res, next) => {
     });
 
 
-    app.get("/users/:email", verificaToken, (req, res) => {
+    app.get("/users/:email", (req, res) => {
         console.log(req.params)
         User.findOne({ email: req.params.email }).then(items => res.json(items))
             .catch((err) => console.log(err))
