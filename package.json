@@ -20,8 +20,10 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.0.0",
     "mongoose": "^7.5.0",
+    "mongoose-unique-validator": "^4.0.0",
     "morgan": "^1.10.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "underscore": "^1.13.6"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.4"
