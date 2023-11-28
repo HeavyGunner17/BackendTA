@@ -158,7 +158,7 @@ app.post('/users', (req, res) => {
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 10),
         rol: "usuario",
-        token: req.query.token
+        token: ""
     })
         .then((doc) => console.log(doc))
         .catch((err) => console.log(err));
@@ -166,7 +166,6 @@ app.post('/users', (req, res) => {
 
 
 app.post("/users/:email", (req, res) => {
-    console.log(req.body, 'hola params')
     User.findOne({ email: req.body.email }).then(user => {
         if (bcrypt.compareSync(req.body.password, user.password)) {
             let token = jwt.sign(
@@ -176,12 +175,23 @@ app.post("/users/:email", (req, res) => {
                 process.env.JWTPRIVATEKEY,
                 { expiresIn: "7d" }
             );
+            let userId = user._id
+            User.findByIdAndUpdate(userId, { $set: { token: token } }).then((err, docs) => {
+                if (docs) {
+                    console.log(docs)
+                } else {
+                    console.log(err)
+                }
+            })
+
             res.json({
                 ok: true,
-                User: user,
+                user: user,
                 token: token //Provisorio el token de prueba
             })
             res.status(201)
+
+
         } else {
             res.status(400)
             res.json({ response: 'el usuario o contraseña son incorrectos' })
