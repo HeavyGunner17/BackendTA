@@ -159,6 +159,7 @@ app.post('/users', (req, res) => {
         password: bcrypt.hashSync(req.body.password, 10),
         rol: "usuario",
         token: ""
+        token: ""
     })
         .then((doc) => console.log(doc))
         .catch((err) => console.log(err));
@@ -192,6 +193,8 @@ app.post("/users/:email", (req, res) => {
                 token: token //Provisorio el token de prueba
             })
             res.status(201)
+
+
         } else {
             res.status(400)
             res.json({ response: 'el usuario o contraseña son incorrectos' })
