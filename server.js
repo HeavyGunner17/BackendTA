@@ -159,7 +159,6 @@ app.post('/users', (req, res) => {
         password: bcrypt.hashSync(req.body.password, 10),
         rol: "usuario",
         token: ""
-        token: ""
     })
         .then((doc) => console.log(doc))
         .catch((err) => console.log(err));
@@ -170,9 +169,7 @@ app.post("/users/:email", (req, res) => {
     User.findOne({ email: req.body.email }).then(user => {
         if (bcrypt.compareSync(req.body.password, user.password)) {
             let token = jwt.sign(
-                {
-                    User: user,
-                },
+                {user: user.username},
                 process.env.JWTPRIVATEKEY,
                 { expiresIn: "7d" }
             );
