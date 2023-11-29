@@ -158,7 +158,7 @@ app.post('/users', (req, res) => {
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 10),
         rol: "usuario",
-        token: req.query.token
+        token: ""
     })
         .then((doc) => console.log(doc))
         .catch((err) => console.log(err));
@@ -166,7 +166,6 @@ app.post('/users', (req, res) => {
 
 
 app.post("/users/:email", (req, res) => {
-    console.log(req.body, 'hola params')
     User.findOne({ email: req.body.email }).then(user => {
         if (bcrypt.compareSync(req.body.password, user.password)) {
             let token = jwt.sign(
@@ -176,9 +175,20 @@ app.post("/users/:email", (req, res) => {
                 process.env.JWTPRIVATEKEY,
                 { expiresIn: "7d" }
             );
+            let userId = user._id
+            User.findByIdAndUpdate(userId, { $set: { token: token } }).then((err, docs) => {
+                if (docs) {
+                    console.log(docs)
+                } else {
+                    console.log(err)
+                }
+            })
             res.json({
                 ok: true,
-                User: user,
+                user: user.username,
+                userEmail: user.email,
+                userName: user.nombre,
+                userRole: user.rol,
                 token: token //Provisorio el token de prueba
             })
             res.status(201)
@@ -213,55 +223,6 @@ app.put("/update/:id", (req, res) => {
         .then((doc) => console.log(doc))
         .catch((err) => console.log(err));
 });
-
-
-// //Routes/users
-// router.post("/", async (req,res) =>{
-//     try{
-//         const {error} = validate(req.body);
-//         if (error)
-//         return res.status(400).send({
-//     message: error.details[0].message});
-//     const user = await User.findOne({email:req.body.email});
-//     if (user)
-//     return res.status(409).send({
-// message:"Este email ya existe"});
-
-// const salt= await bcrypt.genSalt(Number(process.env.SALT));
-// const hashPassword = await bcrypt.hash(req.body.password,salt);
-
-// await new User({...req.body,password:hashPassword}).save()
-// res.status(201).send({message:"Usuario creado exitosamente."})
-
-//     }catch (error){
-// res.status(500).send({message:"error en el servidor"})
-//     }
-// })
-
-// // //Routes/auth
-// router.post("/", async(req,res) =>{
-//     try{
-// const {error} = validate(req,body);
-// if (error)
-// return res.status(400).send({message:error.details[0].message});
-// if (!user)
-// return res.status(401).send({message:"Contraseña o Email invalido"});
-
-// const validPassword =await bcrypt.compare(
-//     req.body.password, User.password
-// );
-// if(!validPassword)
-// return res.status(401).send({message:"Contraseña o Email invalido"});
-
-// const token = User.generateAuthToken();
-// res.status(200).send({data:token, message:"Se conectó exitosamente"})
-
-//     }catch(error){
-// res.status(500).send({message:"error interno en el servidor"})
-//     }
-// })
-
-
 
 app.get('/ ', (req, res) => {
     res.send('Bienvenido al servidor del Backend')
