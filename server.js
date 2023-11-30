@@ -69,26 +69,26 @@ const User = mongoose.model("User", userSchema);
 
 
 
-app.put("/update/:id", (req, res) => {
-    let body = _.pick(req.body,
-        ['nombre', 'username', 'email', 'password', 'rol', 'token']);
-    User.findByIdAndUpdate(id, body, {
-        new: true,
-        runValidators: true
-    }, (err, usuarioDB) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            })
-        }
-        res.json({
-            ok: true,
-            User: usuarioDB
-        })
-    }
-    )
-});
+// app.put("/update/:id", (req, res) => {
+//     let body = _.pick(req.body,
+//         ['nombre', 'username', 'email', 'password', 'rol', 'token']);
+//     User.findByIdAndUpdate(id, body, {
+//         new: true,
+//         runValidators: true
+//     }, (err, usuarioDB) => {
+//         if (err) {
+//             return res.status(400).json({
+//                 ok: false,
+//                 err
+//             })
+//         }
+//         res.json({
+//             ok: true,
+//             User: usuarioDB
+//         })
+//     }
+//     )
+// });
 
 
 userSchema.methods.generateAuthToken = function () {
@@ -169,7 +169,7 @@ app.post("/users/:email", (req, res) => {
     User.findOne({ email: req.body.email }).then(user => {
         if (bcrypt.compareSync(req.body.password, user.password)) {
             let token = jwt.sign(
-                {user: user.username},
+                { user: user.username },
                 process.env.JWTPRIVATEKEY,
                 { expiresIn: "7d" }
             );
@@ -212,7 +212,8 @@ app.delete("/delete/:id", (req, res) => {
         .catch((err) => console.log(err));
 });
 
-app.put("/update/:id", (req, res) => {
+app.put("/posts/:id", (req, res) => {
+    console.log(req, 'req')
     Post.findByIdAndUpdate({ _id: req.params.id },
         {
             nombre: req.body.nombre,
@@ -220,8 +221,12 @@ app.put("/update/:id", (req, res) => {
             preguntas: req.body.preguntas,
             categoria: req.body.categoria
         })
-        .then((doc) => console.log(doc))
-        .catch((err) => console.log(err));
+        .then((doc) => {
+            console.log(doc)
+            res.json('Se actualizó con exito')
+            res.status(200)
+        })
+        .catch ((err) => console.log(err));
 });
 
 app.get('/ ', (req, res) => {
