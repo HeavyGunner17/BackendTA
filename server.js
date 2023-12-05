@@ -113,31 +113,6 @@ let verificaToken = (req, res, next) => {
         next();
     })
 };
-//     {
-//         nombre: req.body.nombre,
-//             usuario: req.body.usuario,
-//                 email: req.body.email,
-//                     password: req.body.password,
-//                         rol: req.body.rol
-//     })
-//     .then((doc) => console.log(doc))
-//     .catch((err) => console.log(err));
-// });
-
-
-
-
-// const validateUser =(data) =>{
-//     const schema = Joi.object({
-// nombre:Joi.string().required().label("Nombre"),
-// username:Joi.string().required().label("Username"),
-// email:Joi.string().email().required().label("Email"),
-// password: passwordComplexity().required().label("Password"),
-// rol: Joi.string().required().label("rol")
-//     });
-//     return schema.validate(data)
-// };
-
 
 
 app.post('/adm', (req, res) => {
