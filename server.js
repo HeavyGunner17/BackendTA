@@ -22,10 +22,12 @@ mongoose.connect("mongodb+srv://HeavyGunner17:41WidJ7exIU4LyEI@cluster0.wkzcmtc.
 
 
 const postSchema = mongoose.Schema({
+    email: String,
     nombre: String,
     estado: String,
     preguntas: [],
     categoria: String,
+    anonimo: Boolean,
 });
 
 const Post = mongoose.model("Post", postSchema);
@@ -117,10 +119,12 @@ let verificaToken = (req, res, next) => {
 
 app.post('/adm', (req, res) => {
     Post.create({
+        email: req.body.email,
         nombre: req.body.nombre,
         estado: req.body.estado,
         preguntas: req.body.preguntas,
-        categoria: req.body.categoria
+        categoria: req.body.categoria,
+        anonimo: req.body.anonimo
     })
         .then((doc) => console.log(doc))
         .catch((err) => console.log(err));
@@ -191,17 +195,19 @@ app.put("/posts/:id", (req, res) => {
     console.log(req, 'req')
     Post.findByIdAndUpdate({ _id: req.params.id },
         {
+            email: req.body.email,
             nombre: req.body.nombre,
             estado: req.body.estado,
             preguntas: req.body.preguntas,
-            categoria: req.body.categoria
+            categoria: req.body.categoria,
+            anonimo: req.body.anonimo
         })
         .then((doc) => {
             console.log(doc)
             res.json('Se actualizó con exito')
             res.status(200)
         })
-        .catch ((err) => console.log(err));
+        .catch((err) => console.log(err));
 });
 
 app.get('/ ', (req, res) => {
