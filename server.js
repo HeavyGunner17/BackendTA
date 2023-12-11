@@ -19,7 +19,9 @@ app.use(express.urlencoded({
 }));
 app.use("/", router)
 
-
+router.get("/", (req, res) => {
+    res.json({"hola":"hola"})
+})
 
 mongoose.connect("mongodb+srv://HeavyGunner17:41WidJ7exIU4LyEI@cluster0.wkzcmtc.mongodb.net/?retryWrites=true&w=majority").catch((err => console.log(err)));
 
