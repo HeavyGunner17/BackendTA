@@ -1,5 +1,3 @@
-import express, { Router } from "express";
-import serverless from "serverless-http";
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -224,4 +222,4 @@ app.listen(5000, function () {
     console.log('El server esta funcionando')
 });
 
-export const handler = serverless(app)
+// export const handler = serverless(app)
