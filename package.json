@@ -9,6 +9,8 @@
   "author": "Ana Malocu",
   "license": "ISC",
   "dependencies": {
+    "@netlify/functions": "^2.4.0",
+    "@types/express": "^4.17.21",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -23,6 +25,7 @@
     "mongoose-unique-validator": "^4.0.0",
     "morgan": "^1.10.0",
     "nodemon": "^3.0.1",
+    "serverless-http": "^3.2.0",
     "underscore": "^1.13.6"
   },
   "devDependencies": {
