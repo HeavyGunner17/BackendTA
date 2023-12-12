@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: 'false'
 }));
-router.get('/demo', (req, res) => {
+router.get('/', (req, res) => {
     res.json([
       {
         id: '001',
