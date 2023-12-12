@@ -14,9 +14,18 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: 'false'
 }));
-router.get("/", (req, res) => {
-    res.json({"hola":"hola"})
-})
+router.get('/demo', (req, res) => {
+    res.json([
+      {
+        id: '001',
+        name: 'Smith',
+        email: 'smith@gmail.com',
+      } 
+    ]);
+    });
+
+
+
 
 mongoose.connect("mongodb+srv://HeavyGunner17:41WidJ7exIU4LyEI@cluster0.wkzcmtc.mongodb.net/?retryWrites=true&w=majority").catch((err => console.log(err)));
 
@@ -196,5 +205,5 @@ app.listen(5000, function () {
     console.log('El server esta funcionando')
 });
 
-app.use('/.netlify/functions/api', router);
+app.use('/.netlify/functions/server', router);
 module.exports.handler = serverless(app);
