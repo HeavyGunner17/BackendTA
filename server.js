@@ -70,29 +70,6 @@ const userSchema = mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 
-
-// app.put("/update/:id", (req, res) => {
-//     let body = _.pick(req.body,
-//         ['nombre', 'username', 'email', 'password', 'rol', 'token']);
-//     User.findByIdAndUpdate(id, body, {
-//         new: true,
-//         runValidators: true
-//     }, (err, usuarioDB) => {
-//         if (err) {
-//             return res.status(400).json({
-//                 ok: false,
-//                 err
-//             })
-//         }
-//         res.json({
-//             ok: true,
-//             User: usuarioDB
-//         })
-//     }
-//     )
-// });
-
-
 userSchema.methods.generateAuthToken = function () {
     const token = jwt.sign({ _id: this._id }, process.env.JWSPRIVATEKEY, { expiresIn: "7d" })
     console.log(token)
