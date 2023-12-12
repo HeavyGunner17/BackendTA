@@ -205,5 +205,5 @@ app.listen(5000, function () {
     console.log('El server esta funcionando')
 });
 
-app.use('/.netlify/functions/server', router);
+app.use('/.netlify/functions/api', router);
 module.exports.handler = serverless(app);

@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "netlify deploy --prod"
-
+    "build": "node functions/server.js"
   },
   "author": "Ana Malocu",
   "license": "ISC",
