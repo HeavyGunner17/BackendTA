@@ -4,9 +4,8 @@ const app = express();
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt")
-const router = Router();
-
-
+const router = express.Router();
+const serverless = require('serverless-http');
 
 require('dotenv').config();
 
@@ -15,8 +14,6 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: 'false'
 }));
-app.use("/.netlify/functions/api", router)
-
 router.get("/", (req, res) => {
     res.json({"hola":"hola"})
 })
@@ -72,29 +69,6 @@ const userSchema = mongoose.Schema({
 
 
 const User = mongoose.model("User", userSchema);
-
-
-
-// app.put("/update/:id", (req, res) => {
-//     let body = _.pick(req.body,
-//         ['nombre', 'username', 'email', 'password', 'rol', 'token']);
-//     User.findByIdAndUpdate(id, body, {
-//         new: true,
-//         runValidators: true
-//     }, (err, usuarioDB) => {
-//         if (err) {
-//             return res.status(400).json({
-//                 ok: false,
-//                 err
-//             })
-//         }
-//         res.json({
-//             ok: true,
-//             User: usuarioDB
-//         })
-//     }
-//     )
-// });
 
 
 userSchema.methods.generateAuthToken = function () {
@@ -222,4 +196,5 @@ app.listen(5000, function () {
     console.log('El server esta funcionando')
 });
 
-// export const handler = serverless(app)
+app.use('/.netlify/functions/api', router);
+module.exports.handler = serverless(app);
