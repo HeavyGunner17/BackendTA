@@ -101,8 +101,14 @@ app.post('/adm', (req, res) => {
         categoria: req.body.categoria,
         anonimo: req.body.anonimo
     })
-        .then((doc) => console.log(doc))
-        .catch((err) => console.log(err));
+        .then((doc) => {
+            res.json('Se creo la encuesta con exito')
+            res.status(200)
+        })
+        .catch((err) => {
+            res.json(err)
+            res.status(400)
+        });
 });
 
 app.post('/users', (req, res) => {
@@ -114,8 +120,14 @@ app.post('/users', (req, res) => {
         rol: "usuario",
         token: ""
     })
-        .then((doc) => console.log(doc))
-        .catch((err) => console.log(err));
+        .then((doc) => {
+            res.json('Se registró con exito')
+            res.status(200)
+        })
+        .catch((err) => {
+            res.json('Hubo un error al registrarse')
+            res.status(400)
+        });
 });
 
 
@@ -155,14 +167,20 @@ app.post("/users/:email", (req, res) => {
 });
 
 app.get("/posts", (req, res) => {
-    Post.find().then(items => res.json(items))
+    Post.find().then(items => {
+        res.json(items)
+        res.status(200)
+    })
         .catch((err) => console.log(err))
 });
 
 
 app.delete("/delete/:id", (req, res) => {
     Post.findByIdAndDelete({ _id: req.params.id })
-        .then((doc) => console.log(doc))
+        .then((doc) => {
+            res.json('Se actualizó con exito')
+            res.status(200)
+        })
         .catch((err) => console.log(err));
 });
 
